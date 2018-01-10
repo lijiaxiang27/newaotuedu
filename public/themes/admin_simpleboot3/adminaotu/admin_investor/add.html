@@ -1,0 +1,130 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+<script type="text/html" id="photos-item-tpl">
+    <li id="saved-image{id}">
+        <input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
+        <input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+               style="width: 200px;" title="图片名称">
+        <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+             onclick="imagePreviewDialog(this.src);">
+        <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+        <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+    </li>
+</script>
+<script type="text/html" id="files-item-tpl">
+    <li id="saved-file{id}">
+        <input id="file-{id}" type="hidden" name="file_urls[]" value="{filepath}">
+        <input class="form-control" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
+               style="width: 200px;" title="文件名称">
+        <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
+        <a href="javascript:uploadOne('图片上传','#file-{id}');">替换</a>
+        <a href="javascript:(function(){$('#saved-file{id}').remove();})();">移除</a>
+    </li>
+</script>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminInvestor/index')}">投资人列表</a></li>
+        <li class="active"><a href="{:url('AdminInvestor/add')}">添加投资人</a></li>
+    </ul>
+    <form action="{:url('AdminInvestor/add')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">姓名<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="name"
+                                   id="title" required value="" placeholder="请输入投资人姓名"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>校区<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="description"
+                                    required value="" placeholder="请填写校区"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>图片（圆形）</th>
+                        <td>
+                            <div style="text-align: left;">
+                                <input type="hidden" name="avatar" id="thumbnail" value="">
+                                <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                         id="thumbnail-preview"
+                                         width="135" style="cursor: pointer"/>
+                                </a>
+                                <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>图片（方形）</th>
+                        <td>
+                            <div style="text-align: left;">
+                                <input type="hidden" name="square_avatar" id="thumbnail1" value="">
+                                <a href="javascript:uploadOneImage('图片上传','#thumbnail1');">
+                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                         id="thumbnail1-preview"
+                                         width="135" style="cursor: pointer"/>
+                                </a>
+                                <input type="button" class="btn btn-sm btn-cancel-thumbnail1" value="取消图片">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>视频<span class="form-required">*</span></th>
+                        <td>
+                            <div style="text-align: left;">
+                                <input type="hidden" name="video" id="files" value="">
+                                <a href="javascript:uploadOnevideo('视频上传','#files','video');">
+                                    <video  poster="__TMPL__/public/assets/images/default-thumbnail.png" id="files-preview" width="135" style="cursor: pointer"></video>
+
+                                </a>
+                                <input type="button" class="btn btn-sm btn-cancel-file" value="取消视频">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                        <a class="btn btn-default" href="{:url('AdminInvestor/index')}">{:lang('BACK')}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+        $('.btn-cancel-thumbnail1').click(function () {
+            $('#thumbnail1-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail1').val('');
+        });
+
+        $('.btn-cancel-file').click(function () {
+            $('#files-preview').removeAttr('src');
+            $('#files-preview').attr('poster', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#files').val('');
+        });
+    });
+
+</script>
+</body>
+</html>

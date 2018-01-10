@@ -1,0 +1,59 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('AdminApply/index')}">申请列表</a></li>
+		</ul>
+
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">ID</th>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>手机</th>
+						<th>提交时间</th>
+						<th>详情</th>
+						<th width="180">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				<volist name="apply" id="vo">
+					<tr>
+						<td>{$vo.id}</td>
+						<td>{$vo.name}</td>
+						<td>{$vo.sex}</td>
+						<td>{$vo.phone}</td>
+						<td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
+						<td><a href="javascript:parent.openIframeLayer('{:url("AdminApply/detail",array("id"=>$vo["id"]))}','申请详情')">详情</a></td>
+						<td>
+							<if condition="$vo.status eq 1 ">
+								已读
+								<else/>
+								<a class="js-ajax-dialog-btn" data-msg="确定标记吗？" href='{:url("AdminApply/isread",array("id"=>$vo["id"]))}'>标记已读</a>
+							</if>
+							 |
+							<a class="js-ajax-delete" href="{:url('AdminApply/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+						</td>
+					</tr>
+				</volist>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th width="50">ID</th>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>手机</th>
+						<th>提交时间</th>
+						<th>详情</th>
+						<th width="180">操作</th>
+					</tr>
+				</tfoot>
+			</table>
+			<div class="pagination">{$apply->render()}</div>
+
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

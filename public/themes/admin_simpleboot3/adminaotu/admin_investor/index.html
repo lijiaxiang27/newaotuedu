@@ -1,0 +1,63 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('AdminInvestor/index')}">投资人列表</a></li>
+			<li><a href="{:url('AdminInvestor/add')}">添加投资人</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form" action="{:url('AdminInvestor/listOrder')}">
+			<div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">排序</th>
+						<th width="50">ID</th>
+						<th>投资人姓名</th>
+						<th>描述</th>
+						<th>缩略图1</th>
+						<th>缩略图2</th>
+						<th>视频</th>
+						<th width="180">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				<volist name="investor" id="vo">
+					<tr>
+						<td><input name='list_orders[{$vo.id}]' type='text' size='3' value='{$vo.list_order}' class='input-order'></td>
+						<td>{$vo.id}</td>
+						<td>{$vo.name}</td>
+						<td>{$vo.description|mb_substr=###,0,10}</td>
+						<td><a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo['avatar'])}');" ><img  src="{:cmf_get_image_preview_url($vo.avatar)}" alt="" height="30px;" /></a></td>
+						<td><a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo['square_avatar'])}');" ><img  src="{:cmf_get_image_preview_url($vo.square_avatar)}" alt="" height="30px;" /></a></td>
+						<td><a href="javascript:parent.openIframeLayer('{:cmf_get_image_preview_url($vo['video'])}','视频预览')">预览</a></td>
+						<td>
+							<a href='{:url("AdminInvestor/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a> |
+							<a class="js-ajax-delete" href="{:url('AdminInvestor/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+						</td>
+					</tr>
+				</volist>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th width="50">排序</th>
+						<th width="50">ID</th>
+						<th>投资人姓名</th>
+						<th>描述</th>
+						<th>缩略图1</th>
+						<th>缩略图2</th>
+						<th>视频</th>
+						<th width="180">操作</th>
+					</tr>
+				</tfoot>
+			</table>
+			<div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

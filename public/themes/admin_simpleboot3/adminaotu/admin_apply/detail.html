@@ -1,0 +1,89 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">姓名</th>
+                        <td>
+                            {$apply.name}
+                        </td>
+                        <th width="120">性别</th>
+                        <td>
+                            {$apply.sex}
+                        </td>
+                        <th width="100">学历</th>
+                        <td>
+                            {$apply.edu}
+                        </td>
+                        <th width="100">生日</th>
+                        <td>
+                            {$apply.birth}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">地区</th>
+                        <td>
+                            {$apply.province}-{$apply.city}
+                        </td>
+                        <th width="120">手机号</th>
+                        <td>
+                            {$apply.phone}
+                        </td>
+                        <th width="100">座机</th>
+                        <td>
+                            {$apply.tel}
+                        </td>
+                        <th width="100">邮编</th>
+                        <td>
+                            {$apply.postcode}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">邮箱</th>
+                        <td>
+                            {$apply.email}
+                        </td>
+                        <th>最佳联系时间</th>
+                        <td>
+                            {$apply.contact}
+                        </td>
+                        <th width="100">从事行业</th>
+                        <td>
+                            {$apply.business}
+                        </td>
+                        <th width="100">年收入</th>
+                        <td>
+                            {$apply.income}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">加入理由</th>
+                        <td colspan="7">
+                            {$apply.reason}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">其他</th>
+                        <td colspan="7">
+                            {$apply.remark}
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+        </div>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+
+
+</body>
+</html>

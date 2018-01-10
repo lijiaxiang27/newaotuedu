@@ -1,0 +1,56 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('AdminApply/consult_show')}">预约列表</a></li>
+		</ul>
+
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">ID</th>
+						<th>姓名</th>
+						<th>城市</th>
+						<th>手机</th>
+						<th>提交时间</th>
+						<th width="180">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				<volist name="data" id="vo">
+					<tr>
+						<td>{$vo.id}</td>
+						<td>{$vo.name}</td>
+						<td>{$vo.province}&nbsp&nbsp{$vo.city}</td>
+						<td>{$vo.phone}</td>
+						<td>{:date('Y-m-d H:i',$vo['create_time'])}</td>
+						<td>
+							<if condition="$vo.is_read eq 1 ">
+								已读
+								<else/>
+								<a class="js-ajax-dialog-btn" data-msg="确定标记吗？" href='{:url("AdminApply/consult_save",array("id"=>$vo["id"]))}'>标记已读</a>
+							</if>
+							 |
+							<a class="js-ajax-delete" data-msg="确定删除吗？" href="{:url('AdminApply/consult_del',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+						</td>
+					</tr>
+				</volist>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th width="50">ID</th>
+						<th>姓名</th>
+						<th>城市</th>
+						<th>手机</th>
+						<th>提交时间</th>
+						<th width="180">操作</th>
+					</tr>
+				</tfoot>
+			</table>
+		<div class="pagination">{$data->render()}</div>
+
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

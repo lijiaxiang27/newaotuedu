@@ -1,0 +1,54 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('AdminAwards/index')}">奖项列表</a></li>
+			<li><a href="{:url('AdminAwards/add')}">添加奖项</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form" action="{:url('AdminAwards/listOrder')}">
+			<div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">排序</th>
+						<th width="50">ID</th>
+						<th>详情</th>
+						<th>缩略图</th>
+						<th width="180">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				<volist name="awards" id="vo">
+					<tr>
+						<td><input name='list_orders[{$vo.id}]' type='text' size='3' value='{$vo.list_order}' class='input-order'></td>
+						<td>{$vo.id}</td>
+						<td>{$vo.description|mb_substr=###,0,15}...</td>
+						<td><a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo['img'])}');" ><img  src="{:cmf_get_image_preview_url($vo.img)}" alt="" height="30px;" /></a></td>
+						<td>
+							<a href='{:url("AdminAwards/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a> |
+							<a class="js-ajax-delete" href="{:url('AdminAwards/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+						</td>
+					</tr>
+				</volist>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th width="50">排序</th>
+						<th width="50">ID</th>
+						<th>详情</th>
+						<th>缩略图</th>
+						<th width="180">操作</th>
+					</tr>
+				</tfoot>
+			</table>
+			<div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

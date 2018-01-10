@@ -1,0 +1,54 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('AdminProblem/index')}">问题列表</a></li>
+			<li><a href="{:url('AdminProblem/add')}">添加问题</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form" action="{:url('AdminProblem/listOrder')}">
+			<div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">排序</th>
+						<th width="50">ID</th>
+						<th>问题描述</th>
+						<th>问题解答</th>
+						<th width="180">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				<volist name="problem" id="vo">
+					<tr>
+						<td><input name='list_orders[{$vo.id}]' type='text' size='3' value='{$vo.list_order}' class='input-order'></td>
+						<td>{$vo.id}</td>
+						<td>{$vo.problem}</td>
+						<td>{$vo.answer|mb_substr=###,0,20}...</td>
+						<td>
+							<a href='{:url("AdminProblem/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a> |
+							<a class="js-ajax-delete" href="{:url('AdminProblem/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+						</td>
+					</tr>
+				</volist>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th width="50">排序</th>
+						<th width="50">ID</th>
+						<th>问题描述</th>
+						<th>问题解答</th>
+						<th width="180">操作</th>
+					</tr>
+				</tfoot>
+			</table>
+			<div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>
