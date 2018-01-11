@@ -1,0 +1,60 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('Teacher/index')}">教师列表</a></li>
+			<li><a href="{:url('Teacher/add')}">添加教师</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form" action="{:url('Teacher/listOrder')}">
+			<div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">排序</th>
+						<th width="50">ID</th>
+						<th>教师姓名</th>
+						<th>一句话简介</th>
+						<th>简介</th>
+						<th>缩略图</th>
+						<th width="180">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				<volist name="teachers" id="vo">
+					<tr>
+						<td><input name='list_orders[{$vo.t_id}]' type='text' size='3' value='{$vo.t_order}' class='input-order'></td>
+						<td>{$vo.t_id}</td>
+						<td>{$vo.t_name}</td>
+						<td>{$vo.t_introduction|mb_substr=###,0,10}</td>
+						<td>{$vo.t_content|mb_substr=###,0,10}</td>
+						<td><a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo['t_image'])}');" ><img  src="{:cmf_get_image_preview_url($vo.t_image)}" alt="" height="30px;" /></a></td>
+						<td>
+							<a href='{:url("Teacher/edit",array("t_id"=>$vo["t_id"]))}'>{:lang('EDIT')}</a> |
+							<a class="js-ajax-delete" href="{:url('Teacher/del',array('t_id'=>$vo['t_id']))}">{:lang('DELETE')}</a>
+						</td>
+					</tr>
+				</volist>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th width="50">排序</th>
+						<th width="50">ID</th>
+						<th>教师姓名</th>
+						<th>一句话简介</th>
+						<th>简介</th>
+						<th>缩略图</th>
+						<th width="180">操作</th>
+					</tr>
+				</tfoot>
+			</table>
+			<div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>
