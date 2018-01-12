@@ -1,0 +1,114 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('School/index')}">校区列表</a></li>
+        <li class="active"><a href="{:url('School/add')}">添加校区</a></li>
+    </ul>
+    <form action="{:url('School/add')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+
+                    <tr>
+                        <th>校区名<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="s_name"
+                                    required value="" placeholder="请填写校区名" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>省<span class="form-required">*</span></th>
+                        <td>
+                            <!--<input class="form-control" type="text" name="problem"
+                                    required value="" placeholder="请填写校区名" />-->
+                            <select name="province_id" class="form-control" id="province">
+                                <option value="">请选择省/直辖市</option>
+                                <volist name="province" id="vo" key="k">
+                                    <option value="{$key}">{$vo}</option>
+                                </volist>
+
+
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>市<span class="form-required">*</span></th>
+                        <td>
+                            <select name="city_id" class="form-control" id="city">
+                                <option value="">请选择市/区</option>
+
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>校区类型<span class="form-required">*</span></th>
+                        <td>
+                            <select name="s_type" class="form-control" id="">
+                                <option value="0" selected>加盟校</option>
+                                <option value="1">直营校</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>状态<span class="form-required">*</span></th>
+                        <td>
+                            <select name="s_statu" class="form-control" id="">
+                                <option value="1" selected>正常</option>
+                                <option value="0">暂不展示</option>
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th>校区排序<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="s_order" required value="9999" placeholder="请填写排序越小越靠前 默认9999" />
+                        </td>
+                    </tr>
+
+                </table>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                        <a class="btn btn-default" href="{:url('School/index')}">{:lang('BACK')}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+
+<script type="text/javascript">
+
+    //当省直辖市 发生改变时 动态获取下属市/区
+    $('#province').change(function () {
+        var p_id = $(this).val();
+//        alert(p_id);return;
+        $.ajax({
+            url:"{:url('Api/get_city')}"+'?pid='+p_id,
+            type:'get',
+            dataType:'json',
+            success:function (res) {
+                var option = '';
+                for (var i in res)
+                {
+                    option += '<option value="'+res[i].id+'">'+res[i].name+'</option>';
+                }
+
+                $('#city').children().remove();
+                $('#city').append(option);
+            }
+        })
+    })
+</script>
+</body>
+</html>

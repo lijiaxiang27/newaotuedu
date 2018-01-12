@@ -20,7 +20,7 @@ class TeacherController extends AdminBaseController
     public function index()
     {
         //获取教师数据
-        $teachers = Db::name('teachers') -> order('t_order','desc') -> select();
+        $teachers = Db::name('teachers') -> order('t_order') -> select();
         $this -> assign('teachers',$teachers);
         return $this -> fetch();
     }

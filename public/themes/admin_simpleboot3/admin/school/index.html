@@ -1,0 +1,58 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('School/index')}">校区列表</a></li>
+			<li><a href="{:url('School/add')}">添加校区</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form" action="{:url('School/listOrder')}">
+			<div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">排序</th>
+						<th width="50">ID</th>
+						<th>省/直辖市</th>
+						<th>市/区</th>
+						<th>校区</th>
+						<th width="180">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				<volist name="schools" id="vo">
+					<tr>
+						<td><input name='list_orders[{$vo.s_id}]' type='text' size='3' value='{$vo.s_order}' class='input-order'></td>
+						<td>{$vo.s_id}</td>
+						<td>{$province[$vo.province_id]}</td>
+						<td>{$vo.city_name}</td>
+						<td>{$vo.s_name}</td>
+						<td>
+							<a href='{:url("School/save",array("id"=>$vo["s_id"]))}'>{:lang('EDIT')}</a> |
+							<a class="js-ajax-delete" href="{:url('School/del',array('id'=>$vo['s_id']))}">{:lang('DELETE')}</a>
+						</td>
+					</tr>
+				</volist>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th width="50">排序</th>
+						<th width="50">ID</th>
+						<th>省/直辖市</th>
+						<th>市/区</th>
+						<th>校区</th>
+						<th width="180">操作</th>
+					</tr>
+				</tfoot>
+			</table>
+			<div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div>
+			<ul class="pagination">{$page|default=''}</ul>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

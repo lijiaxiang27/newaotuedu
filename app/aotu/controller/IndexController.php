@@ -35,32 +35,20 @@ class IndexController extends HomeBaseController
      * 前台首页
      */
     public function index()
-    {   //获取幻灯片
-        $slide = self::_get_slide();
-        //获取投资人
-        $investor = self::_get_investor();
-        //获取媒体报道
-        $report = self::_get_report();
-        //获取奖项
-        $awards = self::_get_awards();
-        //热门新闻前五条
-        $news = self::_get_hot_news(5);
-        //处理标题长度
-        foreach ($news as $k => $v){
-            if (mb_strlen($v['post_title'])>15){
-                $news[$k]['post_title'] = mb_substr($v['post_title'],0,14).'...';
-            }
-        }
-        //获取一条新闻
-        $ids = self::_get_news_ids();
-        $one_new= db('portal_post')->field('`id`,post_title,more,post_excerpt')->whereIn('id',$ids)->where(['post_status'=>1,]) -> order('post_hits desc')->find();
-        $one_new['more'] = json_decode($one_new['more'],true);
-//        dump($one_new);die;
-        $this -> assign('one',$one_new);
-        $this -> assign('news',$news);
-        $this -> assign('awards',$awards);
-        $this -> assign('report',$report);
-        $this -> assign('investor',$investor);
+    {   //获取首页幻灯片
+        $slide = self::_get_slide(1,2);
+        $this -> assign('slide',$slide);
+        return $this->fetch();
+    }
+
+    /**
+     * 课程
+     * @return mixed
+     */
+    public function course()
+    {
+        //获取课程页面幻灯片
+        $slide = self::_get_slide(3,4);
         $this -> assign('slide',$slide);
         return $this->fetch();
     }
@@ -109,17 +97,6 @@ class IndexController extends HomeBaseController
      */
     public function coo()
     {
-        return $this -> fetch();
-    }
-
-    /**
-     * 课程体系
-     */
-    public function course()
-    {
-        $slide = self::_get_slide();
-
-        $this -> assign('slide',$slide);
         return $this -> fetch();
     }
 
@@ -329,15 +306,23 @@ class IndexController extends HomeBaseController
 
     }
 
+
     /**
-     * 获取 pc&&mobile 首页幻灯片
+     *  获取幻灯片 pc&&mobile
+     * @return mixed
+     * @param $p_id PC端分类ID
+     * @param $m_id Mobile端分类ID
      * @return mixed
      */
-    private static function _get_slide()
+    private static function _get_slide($p_id,$m_id)
     {
+        //若未传递参数 则默认获取主页banner
+        $p_id = isset($p_id)?$p_id:1;
+        //$m_id = isset($m_id)?$m_id:2;
+
         $db = db('slide_item');
-        $slide['pc'] = $db -> field('image,url') -> where(['status'=>1,'slide_id'=>1]) -> select();
-        $slide['mobile'] = $db -> field('image,url') -> where(['status'=>1,'slide_id'=>2]) -> select();
+        $slide['pc'] = $db -> field('image,url') -> where(['status'=>1,'slide_id'=>$p_id]) -> find();
+        //$slide['mobile'] = $db -> field('image,url') -> where(['status'=>1,'slide_id'=>$m_id]) -> select();
 
         return $slide;
     }
