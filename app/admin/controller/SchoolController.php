@@ -20,12 +20,47 @@ class SchoolController extends AdminBaseController
      */
     public function index()
     {
+        $where = '';
+        //post 请求为查询操作
+        if (Request::instance() -> isPost())
+        {
+            //设置初始状态
+            $stu = false;
+            //获取查询参数
+            $param = Request::instance() -> param();
+            //处理查询参数
+            foreach ($param as $k =>  $v) {
+                //跳过省参数
+                if($k=='province') continue;
+                if ($v != '')
+                {
+                    $stu = true;
+                }
+                $where .= $k.' like "%'.$v.'%" and ';
+            }
+
+            //如果除了省之外没有传递其他数据 则查询省信息
+            if ($param['province']!='' && !$stu)
+            {
+                $s_province = Db::name('china')
+                    ->  field('id')
+                    ->  where('pid=0 and name like "'.$param['province'].'%"')
+                    ->  find();
+                $where .= 'province_id = '.$s_province['id'];
+
+            }else{
+                //补全where 条件最后的and
+                $where .= '1=1';
+            }
+            //将查询条件传递回前台
+            $this -> assign('param',$param);
+        }
+
         //获取校区及其所在市
-        $schools  =  Db::name('school s')
-                  -> field('`s_id`,`s_name`,`s_type`,`province_id`,`city_id`,`s_order`,c.`name` city_name')
-                  -> join('cmf_china c','s.city_id = c.id','left')
-                  -> where('s.s_statu',1)
-                  -> paginate(10);
+        $schools  =  Db::name('school_china_view')
+                  -> where($where)
+                  -> paginate(20);
+
         //获取省
         $province = $this -> _get_province_do();
 
@@ -34,6 +69,9 @@ class SchoolController extends AdminBaseController
         $this -> assign('page',$schools->render());
 
         return $this -> fetch();
+
+
+
     }
 
     /**
@@ -150,6 +188,11 @@ class SchoolController extends AdminBaseController
         return $new_province;
     }
 
+    /**
+     * 数据验证
+     * @param $data
+     * @return bool|string
+     */
     private function _check_params($data)
     {
         //数据验证非空
