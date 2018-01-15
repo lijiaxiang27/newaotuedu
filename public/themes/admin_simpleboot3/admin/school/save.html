@@ -41,7 +41,8 @@
                         <td>
                             <select name="province_id" class="form-control" id="province">
                                 <volist name="provinces" id="vo" key="k">
-                                    <if condition="$k eq $school['province_id']">
+
+                                    <if condition="$key eq $school['province_id']">
                                         <option value="{$key}" selected>{$vo}</option>
                                     <else/>
                                         <option value="{$key}">{$vo}</option>
